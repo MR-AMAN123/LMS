@@ -30,9 +30,6 @@ export const courseApi = createApi({
         queryString+=`&categories=${categoriesString}`;
       }
         
-      // url: "/search",
-      // method:"GET"
-      //append sortbyprice
       if(sortByPrice){
         queryString+=`&sortByPrice=${ encodeURIComponent(sortByPrice)}`;
       }
