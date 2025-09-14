@@ -43,11 +43,12 @@ const session = await stripe.checkout.sessions.create({
     },
   ],
   mode: "payment",
-  success_url: `${FRONTEND_URL}/course-progress/${courseId}`,
-  cancel_url: `${FRONTEND_URL}/course-detail/${courseId}`,
+  success_url: `${process.env.FRONTEND_URL}/course-progress/${courseId}`,
+  cancel_url: `${process.env.FRONTEND_URL}/course-detail/${courseId}`,
   metadata: { courseId, userId },
   shipping_address_collection: { allowed_countries: ["IN"] },
 });
+
 
 
     newPurchase.paymentId = session.id;
