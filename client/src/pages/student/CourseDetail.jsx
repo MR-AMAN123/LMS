@@ -23,7 +23,7 @@ const CourseDetail = () => {
    const courseId = params.courseId;
   const navigate = useNavigate();
   const { data, isLoading, isError} =  useGetCourseByIdQuery(courseId);
-   console.log("Courses data:", data?.courses);
+   console.log("Courses data:", data?.course);
 
    if (isLoading) return <h1>Loading...</h1>;
    if (isError) return <h>Failed to load course details</h>;
