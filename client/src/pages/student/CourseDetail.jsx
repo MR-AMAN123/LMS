@@ -36,7 +36,7 @@ const CourseDetail = () => {
       navigate(`/course-progress/${courseId}`)
     }
   }
-  console.log("ispurchased",purchased)
+  console.log("ispurchased",data.purchased)
   const purchasedCourse= purchased;
 
   return (
