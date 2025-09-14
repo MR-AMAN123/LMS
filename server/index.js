@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import connectDB from "./database/db.js";
+
 import userRoute from "./routes/user.route.js";
 import "./models/course.model.js"; 
 import courseRoute from "./routes/course.route.js";
@@ -25,7 +26,7 @@ app.post("/webhook", bodyParser.raw({ type: "application/json" }), stripeWebhook
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: "https://lms-rho-azure.vercel.app",
     credentials: true
 }));
 
@@ -35,6 +36,7 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/course', courseRoute);
 app.use('/api/v1/purchase', purchaseRoute);
 app.use('/api/v1/progress', courseProgressRoute);
+app.set("trust proxy",1)
 
 app.get('/home', (_, res) => {
     res.status(200).json({
