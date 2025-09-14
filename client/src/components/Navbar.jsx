@@ -154,7 +154,7 @@ const Navbar = () => {
 
       {/* Mobile */}
       <div className="flex md:hidden items-center justify-between px-4 h-full">
-        <h1 className="font-extrabold text-2xl dark:text-white">Learnova</h1>
+        <h1 className="font-extrabold text-2xl text-blue-600">Learnova</h1>
         <MobileNavbar user={user} />
       </div>
     </div>
@@ -192,7 +192,7 @@ const MobileNavbar = ({ user }) => {
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-          <SheetTitle>
+          <SheetTitle className="text-blue-600">
             <Link to="/">Learnova</Link>
           </SheetTitle>
           <DarkMode />
