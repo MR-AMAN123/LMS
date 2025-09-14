@@ -36,7 +36,7 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/course', courseRoute);
 app.use('/api/v1/purchase', purchaseRoute);
 app.use('/api/v1/progress', courseProgressRoute);
-app.set("trust proxy",1)
+app.set("trust proxy,1")
 
 app.get('/home', (_, res) => {
     res.status(200).json({
