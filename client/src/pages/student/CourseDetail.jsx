@@ -22,16 +22,13 @@ const CourseDetail = () => {
    const params = useParams();
    const courseId = params.courseId;
   const navigate = useNavigate();
-  const { data, isLoading, isError} =  useGetCourseByIdQuery(courseId);
-  const {coursestatus} = useGetCourseDetailWithStatusQuery(courseId)
-  console.log("course status",coursestatus)
-   console.log("Courses data:", data?.course._id);
+  const { data, isLoading, isError } = useGetCourseDetailWithStatusQuery(courseId);
+  console.log("API Response:", data);
 
+const course = data?.course;
+const purchased = data?.purchased;
    if (isLoading) return <h1>Loading...</h1>;
    if (isError) return <h>Failed to load course details</h>;
-
-   const course = data?.course;
-const purchased = data?.purchased;
 
 console.log("Course:", course);
 console.log("Purchased:", purchased);
