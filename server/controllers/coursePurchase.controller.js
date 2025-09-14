@@ -25,28 +25,30 @@ export const createCheckoutsession = async (req, res) => {
       amount: course.coursePrice,
       status: "pending",
     });
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "inr",
-            product_data: {
-              name: course.courseTitle,
-              images: [course.courseThumbnail],
-            },
-            unit_amount: course.coursePrice * 100,
-          },
-          quantity: 1,
+const session = await stripe.checkout.sessions.create({
+  payment_method_types: ["card"],
+  line_items: [
+    {
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: course.courseTitle,
+          images: [course.courseThumbnail],
         },
-      ],
-      mode: "payment",
-      success_url: `https://lms-1j8u.onrender.com/course-progress/${courseId}`,
-      cancel_url: `https://lms-1j8u.onrender.com/course-detail/${courseId}`,
-      metadata: { courseId, userId },
-      shipping_address_collection: { allowed_countries: ["IN"] },
-    });
+        unit_amount: course.coursePrice * 100,
+      },
+      quantity: 1,
+    },
+  ],
+  mode: "payment",
+  success_url: `${FRONTEND_URL}/course-progress/${courseId}`,
+  cancel_url: `${FRONTEND_URL}/course-detail/${courseId}`,
+  metadata: { courseId, userId },
+  shipping_address_collection: { allowed_countries: ["IN"] },
+});
+
 
     newPurchase.paymentId = session.id;
     await newPurchase.save();
