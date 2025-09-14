@@ -24,7 +24,7 @@ const CourseDetail = () => {
   const navigate = useNavigate();
   const { data, isLoading, isError} =  useGetCourseByIdQuery(courseId);
   const {coursestatus} = useGetCourseDetailWithStatusQuery(courseId)
-  console.log("course status",coursestatus?.data)
+  console.log("course status",coursestatus)
    console.log("Courses data:", data?.course._id);
 
    if (isLoading) return <h1>Loading...</h1>;
