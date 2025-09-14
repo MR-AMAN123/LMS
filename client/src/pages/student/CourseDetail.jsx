@@ -36,6 +36,7 @@ const CourseDetail = () => {
       navigate(`/course-progress/${courseId}`)
     }
   }
+  console.log(purchased)
   const purchasedCourse= purchased;
 
   return (
@@ -102,7 +103,7 @@ const CourseDetail = () => {
               <h1 className="text-lg md:text-xl font-semibold">Course Price</h1>
             </CardContent>
             <CardFooter className="flex justify-center p-4">
-              {purchasedCourse ? (
+              {purchased ? (
                 <Button onClick={handleContinueCourse} className="w-full">Continue Course</Button>
               ) : (
                  <BuyCourseButton courseId={courseId}/>
