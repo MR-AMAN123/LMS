@@ -32,12 +32,14 @@ const CourseDetail = () => {
  
 
   const handleContinueCourse = () => {
+     
+     console.log("ispurchased",purchased)
     if(purchased){
       navigate(`/course-progress/${courseId}`)
     }
   }
-  console.log("ispurchased",data.purchased)
-  const purchasedCourse= purchased;
+ 
+ 
 
   return (
     <div className="space-y-5">
