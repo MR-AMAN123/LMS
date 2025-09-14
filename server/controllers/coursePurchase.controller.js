@@ -42,8 +42,8 @@ export const createCheckoutsession = async (req, res) => {
         },
       ],
       mode: "payment",
-      success_url: `http://localhost:5173/course-progress/${courseId}`,
-      cancel_url: `http://localhost:5173/course-detail/${courseId}`,
+      success_url: `https://lms-1j8u.onrender.com/course-progress/${courseId}`,
+      cancel_url: `https://lms-1j8u.onrender.com/course-detail/${courseId}`,
       metadata: { courseId, userId },
       shipping_address_collection: { allowed_countries: ["IN"] },
     });
