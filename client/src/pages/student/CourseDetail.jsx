@@ -28,16 +28,20 @@ const CourseDetail = () => {
    if (isLoading) return <h1>Loading...</h1>;
    if (isError) return <h>Failed to load course details</h>;
 
-   const { course} = data;
-   const purchased = data?.purchased
+   const course = data?.course;
+const purchased = data?.purchased;
+
+console.log("Course:", course);
+console.log("Purchased:", purchased);
  
 
   const handleContinueCourse = () => {
      
-     console.log("ispurchased",purchased)
+    
     if(purchased){
       navigate(`/course-progress/${courseId}`)
     }
+     console.log("ispurchased",purchased)
   }
  
  
