@@ -25,7 +25,6 @@ export const createCheckoutsession = async (req, res) => {
       amount: course.coursePrice,
       status: "pending",
     });
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 const session = await stripe.checkout.sessions.create({
   payment_method_types: ["card"],
@@ -43,13 +42,11 @@ const session = await stripe.checkout.sessions.create({
     },
   ],
   mode: "payment",
-  success_url: `${process.env.FRONTEND_URL}/course-progress/${courseId}`,
-  cancel_url: `${process.env.FRONTEND_URL}/course-detail/${courseId}`,
+  success_url: `https://lms-rho-azure.vercel.app/course-progress/${courseId}`,
+  cancel_url: `https://lms-rho-azure.vercel.app/course-detail/${courseId}`,
   metadata: { courseId, userId },
   shipping_address_collection: { allowed_countries: ["IN"] },
 });
-
-
 
     newPurchase.paymentId = session.id;
     await newPurchase.save();
