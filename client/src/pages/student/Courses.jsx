@@ -19,7 +19,7 @@ const Courses = () => {
               ))
             : data?.courses &&
               data.courses.map((course, index) => (
-                <Course key={index} course={course} />
+                <Course  key={course._id || course.id} course={course}/>
               ))}
              
         </div>
