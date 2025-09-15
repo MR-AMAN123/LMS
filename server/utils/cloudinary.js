@@ -14,7 +14,7 @@ export const uploadMedia = async (file, mimetype) => {
   try {
     let resourceType = "auto";
 
-    // 👇 Force video type if mimetype starts with "video/"
+  
     if (mimetype && mimetype.startsWith("video/")) {
       resourceType = "video";
     }
