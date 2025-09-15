@@ -1,4 +1,7 @@
-import { useLoginUserMutation, useRegisterUserMutation } from "@/features/api/authApi";
+import {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+} from "@/features/api/authApi";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Loader2, Eye, EyeOff } from "lucide-react";
@@ -17,12 +20,22 @@ const Login = () => {
 
   const [
     registerUser,
-    { data: registerData, error: registerError, isLoading: registerIsLoading, isSuccess: registerIsSuccess },
+    {
+      data: registerData,
+      error: registerError,
+      isLoading: registerIsLoading,
+      isSuccess: registerIsSuccess,
+    },
   ] = useRegisterUserMutation();
 
   const [
     loginUser,
-    { data: loginData, error: loginError, isLoading: loginIsLoading, isSuccess: loginIsSuccess },
+    {
+      data: loginData,
+      error: loginError,
+      isLoading: loginIsLoading,
+      isSuccess: loginIsSuccess,
+    },
   ] = useLoginUserMutation();
 
   const navigate = useNavigate();
@@ -67,18 +80,23 @@ const Login = () => {
     if (loginError) {
       toast.error(loginError.data?.message || "Login failed");
     }
-  }, [registerIsSuccess, registerData, registerError, loginIsSuccess, loginData, loginError, navigate]);
+  }, [
+    registerIsSuccess,
+    registerData,
+    registerError,
+    loginIsSuccess,
+    loginData,
+    loginError,
+    navigate,
+  ]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#f5f6fb] relative z-0 dark:bg-gray-800">
       <div className="flex w-full min-h-screen">
-        
         <div className="w-1/2 hidden md:flex items-center justify-center bg-[#4c55b7] relative overflow-hidden z-0">
-         
           <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/10 rounded-full animate-pulse"></div>
           <div className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full animate-float-bounce"></div>
 
-       
           <div className="flex flex-col items-center text-center space-y-6 z-10">
             <h1 className="text-white text-2xl font-bold animate-fade-in-down dark:text-black">
               Shape your career with Learnova
@@ -91,7 +109,6 @@ const Login = () => {
           </div>
         </div>
 
-       
         <div className="md:hidden absolute top-0 left-0 w-full h-60 bg-[#4c55b7] flex items-center justify-center z-0 overflow-hidden">
           <img
             src={mode === "login" ? "/man.png" : "/women.png"}
@@ -100,11 +117,12 @@ const Login = () => {
           />
         </div>
 
-    
         <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-10 md:px-20 lg:px-36 py-10 relative z-10">
           {mode === "login" ? (
             <>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center dark:text-white">Welcome Back!</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center dark:text-white">
+                Welcome Back!
+              </h2>
               <p className="text-sm text-gray-500 mb-6 text-center">
                 Login with your email and password.
               </p>
@@ -112,17 +130,20 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck="false"
                 value={loginInput.email}
                 onChange={(e) => changeInputHandler(e, "login")}
                 placeholder="Email"
                 className="text-black mb-4 w-full px-4 py-3 rounded-full border border-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
 
-              
               <div className="relative mb-4">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  autoComplete="new-password"
                   value={loginInput.password}
                   onChange={(e) => changeInputHandler(e, "login")}
                   placeholder="Password"
@@ -144,7 +165,8 @@ const Login = () => {
               >
                 {loginIsLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
                   </>
                 ) : (
                   "Login"
@@ -163,7 +185,9 @@ const Login = () => {
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold text-gray-800 mt-10 text-center dark:text-white">Create your account</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mt-10 text-center dark:text-white">
+                Create your account
+              </h2>
               <p className="text-sm text-gray-500 mb-6 text-center">
                 Fill in your details to get started.
               </p>
@@ -179,17 +203,20 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
+                autoComplete="off"
+                autoCorrect="off"
+                spellCheck="false"
                 value={signupInput.email}
                 onChange={(e) => changeInputHandler(e, "signup")}
                 placeholder="eg. xyz@gmail.com"
                 className="text-black mb-4 w-full px-4 py-3 rounded-full border border-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               />
 
-             
               <div className="relative mb-4">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
+                  autoComplete="new-password"
                   value={signupInput.password}
                   onChange={(e) => changeInputHandler(e, "signup")}
                   placeholder="Password"
@@ -211,7 +238,8 @@ const Login = () => {
               >
                 {registerIsLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
+                    wait
                   </>
                 ) : (
                   "Register"
