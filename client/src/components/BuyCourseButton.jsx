@@ -3,16 +3,12 @@ import { Button } from "./ui/button";
 import { useCreateCheckoutSessionMutation } from "@/features/api/purchaseApi";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 
 const BuyCourseButton = ({ courseId }) => {
-  const navigate = useNavigate();
   const [createCheckoutSession, { data,isLoading,isSuccess,isError,error }] =
     useCreateCheckoutSessionMutation();
-
   const purchasedCourseHandler = async () => {
     await createCheckoutSession(courseId);
-    navigate(`/course-progress/${courseId}`)
   };
 
 useEffect(()=>{
