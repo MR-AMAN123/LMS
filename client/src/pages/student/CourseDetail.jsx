@@ -15,7 +15,7 @@ import { BadgeInfo,Lock,PlayCircle } from "lucide-react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
-import { useGetCourseByIdQuery } from "@/features/api/courseApi";
+
 
 
 const CourseDetail = () => {
