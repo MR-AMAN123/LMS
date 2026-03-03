@@ -25,10 +25,16 @@ app.post("/webhook", bodyParser.raw({ type: "application/json" }), stripeWebhook
 // Default middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: "https://lms-rho-azure.vercel.app",
-    credentials: true
-}));
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://lms-rho-azure.vercel.app"
+    ],
+    credentials: true,
+  })
+);
 
 // API routes
 app.use("/api/v1/media", mediaRoute);

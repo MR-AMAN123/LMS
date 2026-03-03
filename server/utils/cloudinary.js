@@ -13,7 +13,7 @@ cloudinary.config({
 export const uploadMedia = async (file, mimetype) => {
   try {
     let resourceType = "auto";
-
+  
   
     if (mimetype && mimetype.startsWith("video/")) {
       resourceType = "video";
