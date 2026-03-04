@@ -3,7 +3,7 @@ const COURSE_API = "https://lms-1j8u.onrender.com/api/v1/course";
 
 export const courseApi = createApi({
   reducerPath: "courseApi",
-  tagTypes: ["Refetch_Creator_Course","Refetch_Lecture"],
+  tagTypes: ["Refetch_Creator_Course","Refetch_Lecture", "Published_Courses"],
   baseQuery: fetchBaseQuery({
     baseUrl: COURSE_API,
     credentials: "include",
@@ -44,7 +44,8 @@ export const courseApi = createApi({
       query:()=>({
       url: "/published-courses",
       method:"GET"
-      })
+      }),
+      providesTags: ["Published_Courses"]
     }),
     getCreatorCourse: builder.query({
       query: () => ({

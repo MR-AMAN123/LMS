@@ -1,24 +1,29 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./pages/Login";
-import Herosection from "./pages/student/Herosection";
+import { lazy, Suspense } from "react";
 import MainLayout from "./layout/MainLayout";
-import Courses from "./pages/student/Courses";
-import MyLearning from "./pages/student/MyLearning";
-import Profile from "./pages/student/Profile";
-import Sidebar from "./pages/admin/Sidebar";
-import Dashboard from "./pages/admin/Dashboard";
-import CourseTable from "./pages/admin/course/CourseTable";
 import Navbar from "./components/Navbar";
-import AddCourse from "./pages/admin/course/AddCourse";
-import EditCourse from "./pages/admin/course/EditCourse";
-import CreateLecture from "./pages/admin/lecture/CreateLecture";
-import EditLecture from "./pages/admin/lecture/EditLecture";
-import CourseDetail from "./pages/student/CourseDetail";
-import CourseProgress from "./pages/student/CourseProgress";
-import SearchPage from "./pages/student/SearchPage";
-import Terms from "./pages/Terms";
-import P_Policy from "./pages/P_Policy";
+import LoadingSpinner from "./components/LoadingSpinner";
+import { useInitializeApp } from "./hooks/useInitializeApp";
+
+// Lazy load components
+const Login = lazy(() => import("./pages/Login"));
+const Herosection = lazy(() => import("./pages/student/Herosection"));
+const Courses = lazy(() => import("./pages/student/Courses"));
+const MyLearning = lazy(() => import("./pages/student/MyLearning"));
+const Profile = lazy(() => import("./pages/student/Profile"));
+const Sidebar = lazy(() => import("./pages/admin/Sidebar"));
+const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
+const CourseTable = lazy(() => import("./pages/admin/course/CourseTable"));
+const AddCourse = lazy(() => import("./pages/admin/course/AddCourse"));
+const EditCourse = lazy(() => import("./pages/admin/course/EditCourse"));
+const CreateLecture = lazy(() => import("./pages/admin/lecture/CreateLecture"));
+const EditLecture = lazy(() => import("./pages/admin/lecture/EditLecture"));
+const CourseDetail = lazy(() => import("./pages/student/CourseDetail"));
+const CourseProgress = lazy(() => import("./pages/student/CourseProgress"));
+const SearchPage = lazy(() => import("./pages/student/SearchPage"));
+const Terms = lazy(() => import("./pages/Terms"));
+const P_Policy = lazy(() => import("./pages/P_Policy"));
 
 import {
   AdminRoute,
@@ -26,11 +31,14 @@ import {
   ProtectedRoute,
 } from "./components/ProtectedRoutes";
 import PurchaseCourseProtectedRoute from "./components/PurchaseCourseProtected";
-import { ThemeProvider } from "./components/ThemeProvider"; // import your provider
+import { ThemeProvider } from "./components/ThemeProvider";
 import Footer from "@/components/Footer";
 import AnnouncementBar from "./components/AnnouncementBar";
 
 function App() {
+  // Initialize app - loads user in the background without blocking UI
+  useInitializeApp();
+
   return (
     <ThemeProvider>
       <BrowserRouter>
@@ -46,27 +54,45 @@ function App() {
               path="/login"
               element={
                 <AuthenticatedUser>
-                  <Login />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Login />
+                  </Suspense>
                 </AuthenticatedUser>
               }
             />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/policy" element={<P_Policy />} />
-             
+            <Route
+              path="/terms"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Terms />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/policy"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <P_Policy />
+                </Suspense>
+              }
+            />
+
             <Route
               path="/"
               element={
-                <>
+                <Suspense fallback={<LoadingSpinner />}>
                   <Herosection />
                   <Courses />
-                </>
+                </Suspense>
               }
             />
             <Route
               path="/my-learning"
               element={
                 <ProtectedRoute>
-                  <MyLearning />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <MyLearning />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -74,7 +100,9 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <Profile />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Profile />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -82,7 +110,9 @@ function App() {
               path="/course/search"
               element={
                 <ProtectedRoute>
-                  <SearchPage />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <SearchPage />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -90,7 +120,9 @@ function App() {
               path="/course-detail/:courseId"
               element={
                 <ProtectedRoute>
-                  <CourseDetail />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <CourseDetail />
+                  </Suspense>
                 </ProtectedRoute>
               }
             />
@@ -99,7 +131,9 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PurchaseCourseProtectedRoute>
-                    <CourseProgress />
+                    <Suspense fallback={<LoadingSpinner />}>
+                      <CourseProgress />
+                    </Suspense>
                   </PurchaseCourseProtectedRoute>
                 </ProtectedRoute>
               }
@@ -111,23 +145,60 @@ function App() {
             path="/admin"
             element={
               <AdminRoute>
-                <Sidebar />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Sidebar />
+                </Suspense>
               </AdminRoute>
             }
           >
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="course" element={<CourseTable />} />
-            <Route path="course/create" element={<AddCourse />} />
-            <Route path="course/:courseId" element={<EditCourse />} />
+            <Route
+              path="dashboard"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Dashboard />
+                </Suspense>
+              }
+            />
+            <Route
+              path="course"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <CourseTable />
+                </Suspense>
+              }
+            />
+            <Route
+              path="course/create"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <AddCourse />
+                </Suspense>
+              }
+            />
+            <Route
+              path="course/:courseId"
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <EditCourse />
+                </Suspense>
+              }
+            />
             <Route
               path="course/:courseId/lecture"
-              element={<CreateLecture />}
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <CreateLecture />
+                </Suspense>
+              }
             />
             <Route
               path="course/:courseId/lecture/:lectureId"
-              element={<EditLecture />}
+              element={
+                <Suspense fallback={<LoadingSpinner />}>
+                  <EditLecture />
+                </Suspense>
+              }
             />
-            
           </Route>
         </Routes>
         <Footer />

@@ -8,6 +8,7 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: USER_API,
     credentials: "include",
+    timeout: 15000, // 15 second timeout
   }),
   tagTypes: ["User"], 
   endpoints: (builder) => ({
@@ -17,6 +18,17 @@ export const authApi = createApi({
         method: "POST",
         body: inputData,
       }),
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          // if backend returns user, dispatch to auth slice so Navbar updates immediately
+          if (result?.data?.user) {
+            dispatch(userLoggedIn({ user: result.data.user }));
+          }
+        } catch (error) {
+          console.log("Registration error:", error);
+        }
+      },
     }),
     loginUser: builder.mutation({
       query: (inputData) => ({

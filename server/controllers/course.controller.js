@@ -33,19 +33,24 @@ export const createCourse = async (req, res) => {
 export const getPublishedCourse=async(_,res)=>{
      try {
         const courses = await Course.find({isPublished:true}).populate({path:"creator", select:"name photoUrl"});
-        if(!courses){
-            return res.status(404).json({
-                message:"Course not found"
+        if(!courses || courses.length === 0){
+            return res.status(200).json({
+                success: true,
+                courses: [],
+                message:"No courses found"
             })
         }
         return res.status(200).json({
+            success: true,
             courses,
+            message: "Courses fetched successfully"
         })
     }
     catch (error) {
         console.log(error);
     return res.status(500).json({
-      message: "Failed to published course",
+      success: false,
+      message: "Failed to fetch published courses",
     });
     }
 }

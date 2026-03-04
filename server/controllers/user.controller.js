@@ -6,32 +6,38 @@ import { deleteMediaFromCloudinary, uploadMedia } from "../utils/cloudinary.js";
 export const register = async (req,res) => {
     try {
        
-        const {name, email, password} = req.body; // patel214
+        const {name, email, password, role} = req.body; 
         if(!name || !email || !password){
             return res.status(400).json({
                 success:false,
                 message:"All fields are required."
             })
         }
-        const user = await User.findOne({email});
-        if(user){
+        
+        // Check if user already exists
+        const existingUser = await User.findOne({email});
+        if(existingUser){
             return res.status(400).json({
                 success:false,
                 message:"User already exist with this email."
             })
         }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({
+        
+        // Hash password with fewer rounds for faster registration
+        const hashedPassword = await bcrypt.hash(password, 8);
+        
+        // Create user
+        const newUser = await User.create({
             name,
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            role: role || "student"
         });
-        return res.status(201).json({
-            success:true,
-            message:"Account created successfully."
-        })
+
+        // Generate token and send user info back (auto-login after register)
+        return generateToken(res, newUser, "Account created successfully.");
     } catch (error) {
-        console.log(error);
+        console.log("Registration error:", error);
         return res.status(500).json({
             success:false,
             message:"Failed to register"
@@ -78,9 +84,9 @@ export const logout = async (_,res) => {
     }
     try {
         return res.status(200).cookie("token", "",{ 
-        httpOnly: true,                       // prevents XSS
-        secure: true, // HTTPS only in prod
-        sameSite: "None",                     // allow cross-origin cookies
+        httpOnly: true,                       
+        secure: true, 
+        sameSite: "None",                   
         maxAge: 7 * 24 * 60 * 60 * 1000   })
         .json({
             message:"Logged out successfully.",
@@ -138,7 +144,7 @@ export const updateProfile = async (req, res) => {
       await deleteMediaFromCloudinary(publicId);
     }
 
-    let photoUrl = user.photoUrl; // fallback
+    let photoUrl = user.photoUrl;
     if (profilePhoto) {
       const cloudResponse = await uploadMedia(profilePhoto.path);
       photoUrl = cloudResponse.secure_url;

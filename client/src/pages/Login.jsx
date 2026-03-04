@@ -71,14 +71,24 @@ const Login = () => {
       setMode("login");
     }
     if (registerError) {
-      toast.error(registerError.data?.message || "Signup failed");
+      const errorMsg = registerError.data?.message || registerError.error || "Signup failed";
+      if (registerError.status === "FETCH_ERROR" || registerError.error?.includes("timeout")) {
+        toast.error("Server is taking too long to respond. Please try again.");
+      } else {
+        toast.error(errorMsg);
+      }
     }
     if (loginIsSuccess && loginData) {
       toast.success(loginData.message || "Login successful");
       navigate("/");
     }
     if (loginError) {
-      toast.error(loginError.data?.message || "Login failed");
+      const errorMsg = loginError.data?.message || loginError.error || "Login failed";
+      if (loginError.status === "FETCH_ERROR" || loginError.error?.includes("timeout")) {
+        toast.error("Server is taking too long to respond. Please try again.");
+      } else {
+        toast.error(errorMsg);
+      }
     }
   }, [
     registerIsSuccess,
@@ -230,6 +240,8 @@ const Login = () => {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+
+              
 
               <button
                 disabled={registerIsLoading}
